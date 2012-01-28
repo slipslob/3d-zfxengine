@@ -1,0 +1,36 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ZFXRenderer", "ZFXRenderer\ZFXRenderer.vcproj", "{D7AD74C8-0BDE-457C-8A71-403ADBC5E8FF}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ZFXD3D", "ZFXD3D\ZFXD3D.vcproj", "{8CC92E7D-8398-45B2-B643-6E079DB9874F}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Demo", "Demo\Demo.vcproj", "{01D50157-0B0B-4286-886C-FB845D91CFB8}"
+EndProject
+Global
+	GlobalSection(SubversionScc) = preSolution
+		Svn-Managed = True
+		Manager = AnkhSVN - Subversion Support for Visual Studio
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D7AD74C8-0BDE-457C-8A71-403ADBC5E8FF}.Debug|Win32.ActiveCfg = Debug|Win32
+		{D7AD74C8-0BDE-457C-8A71-403ADBC5E8FF}.Debug|Win32.Build.0 = Debug|Win32
+		{D7AD74C8-0BDE-457C-8A71-403ADBC5E8FF}.Release|Win32.ActiveCfg = Release|Win32
+		{D7AD74C8-0BDE-457C-8A71-403ADBC5E8FF}.Release|Win32.Build.0 = Release|Win32
+		{8CC92E7D-8398-45B2-B643-6E079DB9874F}.Debug|Win32.ActiveCfg = Debug|Win32
+		{8CC92E7D-8398-45B2-B643-6E079DB9874F}.Debug|Win32.Build.0 = Debug|Win32
+		{8CC92E7D-8398-45B2-B643-6E079DB9874F}.Release|Win32.ActiveCfg = Release|Win32
+		{8CC92E7D-8398-45B2-B643-6E079DB9874F}.Release|Win32.Build.0 = Release|Win32
+		{01D50157-0B0B-4286-886C-FB845D91CFB8}.Debug|Win32.ActiveCfg = Debug|Win32
+		{01D50157-0B0B-4286-886C-FB845D91CFB8}.Debug|Win32.Build.0 = Debug|Win32
+		{01D50157-0B0B-4286-886C-FB845D91CFB8}.Release|Win32.ActiveCfg = Release|Win32
+		{01D50157-0B0B-4286-886C-FB845D91CFB8}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
