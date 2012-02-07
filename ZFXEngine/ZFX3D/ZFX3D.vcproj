@@ -153,6 +153,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\ZFXMatrix.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\ZFXRay.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\zfxvector.cpp"
 				>
 			</File>
