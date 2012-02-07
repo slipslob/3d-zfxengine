@@ -1,6 +1,8 @@
 #ifndef ZFX3D_H
 #define ZFX3D_H
 
+
+#include <math.h>
 /////GLOBALS
 bool g_bSSE=false;
 
@@ -57,6 +59,62 @@ public:
 	inline void Cross(const ZFXVector &u, const ZFXVector &v);
 };
 
+class __declspec(dllexport) ZFXMatrix{
+public:
+	float _11,_12,_13,_14;
+	float _21,_22,_23,_24;
+	float _31,_32,_33,_34;
+	float _41,_42,_43,_44;
+
+	ZFXMatrix(void){
+		float *f=(float*)&(this->_11);
+		memset(f,0,sizeof(ZFXMatrix));
+	}
+	
+	inline void Identity(void);			//Set the matrix to identity;
+	inline void RotaX(float angle);			//Set the matrix as a rotation matrix around axis X
+	inline void RotaY(float angle);			//Set the matrix as a rotation matrix around axis Y
+	inline void RotaZ(float angle);			//Set the matrix as a rotation matrix around axis Z
+	inline void RotArbi(ZFXVector vcAxis, float angle);	//Rotation on arbitrary axis
+	inline void Translate(float dx,float dy,float dz);	//Translation
+
+	inline void TransposeOf(const ZFXMatrix &m);
+	inline void inverseOf(const ZFXMatrix &m);
+
+	ZFXMatrix operator * (const ZFXMatrix &m) const;
+	ZFXVector operator * (const ZFXVector &vc) const;
+
+};
+
+class __declspec(dllexport) ZFXRay{
+public:
+	ZFXVector m_vcOrig,m_vcDir;
+
+	ZFXRay(void) {}
+
+	inline void Set(ZFXVector vcOrig,ZFXVector vcDir);
+	inline void DeTransform(const ZFXMatrix &m);
+
+	//Vector Intersection
+	bool Intersects(const ZFXVector &vc0,const ZFXVector &vc1, 
+					const ZFXVector &vc2,bool bCull,float *t);
+
+	bool Intersects(const ZFXVector &vc0,const ZFXVector &vc1, 
+					const ZFXVector &vc2,bool bCull,
+					float fL,float *t);
+	//Plane intersection
+	bool Intersects(const ZFXPlane &plane,bool bCull,float *t,ZFXVector *vcHit);
+
+	bool Intersects(const ZFXPlane &plane,bool bCull,float fL,float *t,ZFXVector *vcHit);
+
+	//Axis aligned bounding box intersection
+	bool Intersects(const ZFXAabb,ZFXVector *vcHit);
+
+	//Object aligned bounding box intersection
+	bool Intersects(const ZFXObb &obb,float *t);
+	bool Intersects(const ZFXObb &obb,float fL,float* t);
+
+};
 
 //////END CLASSES
 
