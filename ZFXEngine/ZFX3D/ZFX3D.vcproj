@@ -149,11 +149,27 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
+				RelativePath=".\ZFXAabb.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\zfxcpu.cpp"
 				>
 			</File>
 			<File
 				RelativePath=".\ZFXMatrix.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\ZFXObb.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\ZFXPlane.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\ZFXPolygon.cpp"
 				>
 			</File>
 			<File

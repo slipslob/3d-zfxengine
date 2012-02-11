@@ -40,9 +40,6 @@ ZFXVector ZFXVector::operator*(float f) const{
 	return ZFXVector(x*f,y*f,z*f);
 }
 
-ZFXVector ZFXVector::operator*(const ZFXVector &v) const{
-	return ZFXVector(x*v.x,y*v.y,z*v.z);
-}
 
 inline float ZFXVector::GetSqrLength(void) const{
 	return(x*x+y*y+z*z);
@@ -53,14 +50,15 @@ inline void ZFXVector::Negate(void){
 }
 
 inline void ZFXVector::Difference(const ZFXVector &u, const ZFXVector &v){
-	x=v2.x-v1.x;
-	y=v2.y-v1.y;
-	z=v2.z-v1.z;
+
+	x=v.x-u.x;
+	y=v.y-u.y;
+	z=v.z-u.z;
 	w=1.0f;
 }
 
 inline float ZFXVector::AngleWith(ZFXVector &v){
-	return (float)acos(((*this)*v)/(this->GetLength()*v.GetLength());
+	return (float)acos(((*this)*v)/(this->GetLength()*v.GetLength()));
 }
 
 inline float ZFXVector::GetLength(void){
@@ -80,10 +78,10 @@ inline float ZFXVector::GetLength(void){
 			shufps xmm1,xmm1, 4Eh //shuffle f1,f0,f3,f2 (01 00 11 10)
 			addps xmm0,xmm1 
 			movaps xmm1,xmm0
-			shufps xxm1,xmm1, 11h //shuffle f0,f1,f0,f1 (00 01 00 01)
+			shufps xmm1,xmm1, 11h //shuffle f0,f1,f0,f1 (00 01 00 01)
 			addps xmm0,xmm1
 			sqrtss xmm0,xmm0
-			movss [ecs],xmm0
+			movss [ecx],xmm0
 		}
 		w=1.0f;
 	}
@@ -100,7 +98,7 @@ inline void ZFXVector::Normalize(void){
 		w=0.0f;
 		__asm{
 			mov esi,this
-			mov xmm0,[this]
+			movups xmm0,[esi]
 			movaps xmm2,xmm0
 			mulps xmm0,xmm0
 			movaps xmm1,xmm0
@@ -120,15 +118,15 @@ inline void ZFXVector::Normalize(void){
 
 inline void ZFXVector::Cross(const ZFXVector &u,const ZFXVector &v){
 	if(!g_bSSE){
-		x = v1.y*v2.z - v1.z*v2.y;
-		y = v1.z*v2.x - v1.x*v2.z;
-		z = v1.x*v2.y - v1.y*v2.x;
+		x = u.y*v.z - u.z*v.y;
+		y = u.z*v.x - u.x*v.z;
+		z = u.x*v.y - u.y*v.x;
 		w=1.0f;
 	}else{
 		w=0.0f;
 		__asm{
-			mov esi,v1
-			mov edi,v2
+			mov esi,u
+			mov edi,v
 
 			movups xmm0,[esi]
 			movups xmm1,[edi]
@@ -191,4 +189,5 @@ ZFXVector ZFXVector::operator *(const ZFXMatrix &m) const{
 			mov [eax+3],1
 		}
 	}
+	return vcResult;
 }
