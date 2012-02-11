@@ -26,17 +26,17 @@ CPUINFO GetCPUInfo(){
 			jz	_NOSSE2			//jump if negative
 			mov [info.bSSE2],1  //true
 
-__NOSSE2:	test edx,02000000h	//SSE test
+_NOSSE2:	test edx,02000000h	//SSE test
 			jz	_NOSSE			//jump if negative
 			mov [info.bSSE],1  //true
 
-__NOSSE:	test edx,00800000h	//MMX test
+_NOSSE:	test edx,00800000h	//MMX test
 			jz	_EXIT1			//jump if negative
 			mov [info.bMMX],1  //true
-__EXIT1:	//done
+_EXIT1:	//done
 		}
 	}__except(EXCEPTION_EXECUTE_HANDLER){
-		if (_exception_code()== STATUS_ILLEGAL_INSTRUCTION)
+		if (_exception_code()==STATUS_ILLEGAL_INSTRUCTION)
 			return info;	//CPU inactive
 		return info;	//unexpected error
 	}
@@ -53,7 +53,7 @@ __EXIT1:	//done
 		test edx,80000000h	//test 3DNOW
 		jz _EXIT2			//jump if negative
 		mov [info.b3DNOW],1
-__EXIT2:	
+_EXIT2:	
 	}
 
 	//Vendor Dependent 
@@ -81,10 +81,10 @@ __EXIT2:
 			test edx,0x40000000	//AMD Extended 3DNOW!
 			jz _AMD1
 			mov [info.b3DNOWEX],1
-__AMD1:		test edx,0x00400000
+_AMD1:		test edx,0x00400000
 			jz _AMD2
 			mov [info.bMMXEX],1
-__AMD2:		
+_AMD2:		
 		}
 	}
 	else{
@@ -93,7 +93,6 @@ __AMD2:
 		else
 			;
 	}
-
 	info.vendor[13]='\0';
 	//GetCPUName(info.name,n,info.vendor);
 	return info;

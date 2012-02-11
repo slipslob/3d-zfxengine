@@ -37,7 +37,7 @@ inline void ZFXMatrix::RotaZ(float angle){
 inline void ZFXMatrix::RotArbi(ZFXVector vcAxis, float angle){
 	float fCos=cosf(angle);
 	float fSin=sinf(angle);
-	float fSum=1.0-fCos;
+	float fSum=1.0f-fCos;
 
 	vcAxis.Normalize();
 

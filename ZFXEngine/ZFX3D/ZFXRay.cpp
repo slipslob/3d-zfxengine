@@ -6,7 +6,7 @@ inline void ZFXRay::Set(ZFXVector vcOrig,ZFXVector vcDir){
 }
 
 
-inline void ZFXRay::DeTransform(const ZFXMatrix &m){
+inline void ZFXRay::DeTransform(const ZFXMatrix &_m){
 	ZFXMatrix mInv;
 	ZFXMatrix m=_m;
 	m_vcOrig.x-=m._41;
@@ -15,7 +15,7 @@ inline void ZFXRay::DeTransform(const ZFXMatrix &m){
 
 	m._41=0.0f; m._42=0.0f; m._43=0.0f;
 
-	mInv.inverseOf(&m);
+	mInv.inverseOf(m);
 
 	m_vcOrig=m_vcOrig*mInv;
 	m_vcDir=m_vcDir*mInv;
@@ -27,7 +27,9 @@ bool ZFXRay::Intersects(const ZFXVector &vc0,const ZFXVector &vc1,const ZFXVecto
 }
 
 bool ZFXRay::Intersects(const ZFXVector &vc0,const ZFXVector &vc1,const ZFXVector &vc2,bool bCull,float fL, float* t){
-   ZFXVector edge1 = vc1 - vc0;
+   ZFXVector pvec, tvec, qvec;
+
+	ZFXVector edge1 = vc1 - vc0;
    ZFXVector edge2 = vc2 - vc0;
 
    pvec.Cross(m_vcDir, edge2);
@@ -70,7 +72,7 @@ bool ZFXRay::Intersects(const ZFXPlane &plane, bool bCull, float *t, ZFXVector *
 	return ZFXRay::Intersects(plane,bCull,FLT_MAX,t,vcHit);
 }
 bool ZFXRay::Intersects(const ZFXPlane &plane, bool bCull, float fL, float *t, ZFXVector *vcHit){
-	float Vd=plane.m_vcN* n_vcDir;
+	float Vd=plane.m_vcN* m_vcDir;
 
 	//ray parallel to the plane
 	if(_fabs(Vd)<0.00001f)
@@ -98,7 +100,7 @@ bool ZFXRay::Intersects(const ZFXPlane &plane, bool bCull, float fL, float *t, Z
 	return true;
 }
 
-bool ZFXRay::Intersects(const ZFXAabb, ZFXVector *vcHit){
+bool ZFXRay::Intersects(const ZFXAabb aabb, ZFXVector *vcHit){
 	bool bInside=true;
 	ZFXVector MaxT;
 
@@ -173,24 +175,24 @@ bool ZFXRay::Intersects(const ZFXAabb, ZFXVector *vcHit){
 	return true;
 }
 
-bool ZFXRay::Intersects(const ZFXObb *pObb,float *t){
-	return this->Intersects(*pObb,FLT_MAX,t);
+bool ZFXRay::Intersects(const ZFXObb &pObb,float *t) const {
+	return this->Intersects(pObb,FLT_MAX,t);
 }
 
-bool ZFXRay::Intersects(const ZFXObb *pObb,float fL,float *t){
+bool ZFXRay::Intersects(const ZFXObb &pObb,float fL,float *t) const{
 	float e, f, t1,t2,temp;
 	float tmin= FLT_MIN;
 	float tmax=FLT_MAX;
 
-	ZFXVector vcP=pObb->vcCenter - m_vcOrig;
+	ZFXVector vcP=pObb.vcCenter - m_vcOrig;
 	
 	//1 Slap
-	e=pObb->vcA0 * vcP;
-	f=pObb->vcA0 * m_vcDir;
+	e=pObb.vcA0 * vcP;
+	f=pObb.vcA0 * m_vcDir;
 
 	if(_fabs(f)>0.00001f){
-		t1=(e + pObb->fA0) / f;
-		t2=(e - pObb->fA0) / f;
+		t1=(e + pObb.fA0) / f;
+		t2=(e - pObb.fA0) / f;
 
 		if(t1>t2) { temp=t1;t1=t2;t2=temp;}
 		if(t1>tmin)tmin=t1;
@@ -198,18 +200,18 @@ bool ZFXRay::Intersects(const ZFXObb *pObb,float fL,float *t){
 		if(tmin>tmax) return false;
 		if(tmax<0.0f) return false;
 	}
-	else if (((-e - pObb->fA0) >0.0f) ||
-		((-e + pObb->fA0) <0.0f))
+	else if (((-e - pObb.fA0) >0.0f) ||
+		((-e + pObb.fA0) <0.0f))
 		return false;
 	
 	//2 Slap
 
-	e=pObb->vcA1 * vcP;
-	f=pObb->vcA1 * m_vcDir;
+	e=pObb.vcA1 * vcP;
+	f=pObb.vcA1 * m_vcDir;
 
 	if(_fabs(f)>0.00001f){
-		t1=(e + pObb->fA1) / f;
-		t2=(e - pObb->fA1) / f;
+		t1=(e + pObb.fA1) / f;
+		t2=(e - pObb.fA1) / f;
 
 		if(t1>t2) { temp=t1;t1=t2;t2=temp;}
 		if(t1>tmin)tmin=t1;
@@ -217,18 +219,18 @@ bool ZFXRay::Intersects(const ZFXObb *pObb,float fL,float *t){
 		if(tmin>tmax) return false;
 		if(tmax<0.0f) return false;
 	}
-	else if (((-e - pObb->fA1) >0.0f) ||
-		((-e + pObb->fA1) <0.0f))
+	else if (((-e - pObb.fA1) >0.0f) ||
+		((-e + pObb.fA1) <0.0f))
 		return false;
 	
 
 	//3 Slap
-	e=pObb->vcA2 * vcP;
-	f=pObb->vcA2 * m_vcDir;
+	e=pObb.vcA2 * vcP;
+	f=pObb.vcA2 * m_vcDir;
 
 	if(_fabs(f)>0.00001f){
-		t1=(e + pObb->fA2) / f;
-		t2=(e - pObb->fA2) / f;
+		t1=(e + pObb.fA2) / f;
+		t2=(e - pObb.fA2) / f;
 
 		if(t1>t2) { temp=t1;t1=t2;t2=temp;}
 		if(t1>tmin)tmin=t1;
@@ -236,8 +238,8 @@ bool ZFXRay::Intersects(const ZFXObb *pObb,float fL,float *t){
 		if(tmin>tmax) return false;
 		if(tmax<0.0f) return false;
 	}
-	else if (((-e - pObb->fA2) >0.0f) ||
-		((-e + pObb->fA2) <0.0f))
+	else if (((-e - pObb.fA2) >0.0f) ||
+		((-e + pObb.fA2) <0.0f))
 		return false;
 	
 	if(tmin>0.0f && (tmin <= fL)){
@@ -247,4 +249,3 @@ bool ZFXRay::Intersects(const ZFXObb *pObb,float fL,float *t){
 	if (t) *t=tmax;
 	return true;
 }
-
