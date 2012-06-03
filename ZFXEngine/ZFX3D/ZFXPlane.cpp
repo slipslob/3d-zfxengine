@@ -32,6 +32,46 @@ inline int ZFXPlane::Classify(const ZFXVector &vcPoint){
 }
 
 
+// Classify polygon with respect to this plane
+int ZFXPlane::Classify(const ZFXPolygon &Poly) {
+   int NumFront=0, NumBack=0, NumPlanar=0;
+   int nClass;
+
+   // cast away const
+   ZFXPolygon *pPoly = ((ZFXPolygon*)&Poly);
+
+   int NumPoints = pPoly->GetNumPoints();
+
+   // loop through all points
+   for (int i=0; i < NumPoints; i++) {
+      nClass = Classify( pPoly->m_pPoints[i] );
+      
+      if (nClass == ZFXFRONT)     NumFront++;
+      else if (nClass == ZFXBACK) NumBack++;
+      else {
+         NumFront++;
+         NumBack++;
+         NumPlanar++;
+         }
+      } // for
+   
+   // all points are planar
+   if (NumPlanar == NumPoints)
+      return ZFXPLANAR;
+   // all points are in front of plane
+   else if (NumFront == NumPoints)
+      return ZFXFRONT;
+   // all points are on backside of plane
+   else if (NumBack == NumPoints)
+      return ZFXBACK;
+   // poly is intersecting the plane
+   else
+      return ZFXCLIPPED;
+   } // Classify
+/*----------------------------------------------------------------*/
+
+
+
 bool ZFXPlane::Intersects(const ZFXVector &vc0, const ZFXVector &vc1, const ZFXVector &vc2){
 	int n=this->Classify(vc0);
 

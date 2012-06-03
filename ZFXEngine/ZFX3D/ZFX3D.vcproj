@@ -173,6 +173,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\ZFXQuat.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\ZFXRay.cpp"
 				>
 			</File>
