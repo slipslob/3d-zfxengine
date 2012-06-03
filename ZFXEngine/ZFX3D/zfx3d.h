@@ -24,6 +24,7 @@ class ZFXRay;
 class ZFXPlane;
 class ZFXObb;
 class ZFXAabb;
+class ZFXPolygon;
 /////
 
 /////INCLUDES
@@ -86,6 +87,7 @@ public:
 
 	float operator *(const ZFXVector &v) const;
 	ZFXVector operator *(float f)const;
+	ZFXVector operator /(float f)const;
 	ZFXVector operator *(const ZFXMatrix &m)const;
 	ZFXVector operator +(const ZFXVector &v)const;
 	ZFXVector operator -(const ZFXVector &v)const;
@@ -166,6 +168,7 @@ public:
 	inline float Distance(const ZFXVector &vcPoint);
 	//Classifying a point with respect to plane
 	inline int Classify(const ZFXVector &vcPoint);
+	int Classify(const ZFXPolygon &poly);
 
 	//intersection with a triangle
 	inline bool Intersects(const ZFXVector &vc0,const ZFXVector &vc1,const ZFXVector &vc2);
@@ -227,7 +230,7 @@ private:
 	ZFXAabb	m_Aabb;	//Bounding box
 	unsigned int m_Flag;	
 	ZFXVector* m_pPoints; //Points
-	unsigned int *m_pIndis //Indices;
+	unsigned int *m_pIndis; //Indices;
 
 	void CalcBoundingBox(void);
 
@@ -238,7 +241,7 @@ public:
 	void Set(const ZFXVector *, int, const unsigned int*,int);
 	void Clip(const ZFXPlane &Plane,ZFXPolygon *pFront, ZFXPolygon *pBack);
 	void Clip(const ZFXAabb &aabb);
-	void Cull(const ZFXAabb &aabb);
+	int Cull(const ZFXAabb &aabb);
 	void CopyOf(const ZFXPolygon &Poly);
 
 	void SwapFaces(void);
@@ -253,7 +256,52 @@ public:
 	ZFXAabb GetAabb(void){return m_Aabb;}
 	unsigned int GetFlag(void){ return m_Flag;}
 	void SetFlag(unsigned int n){m_Flag=n;}
-}
+
+	void ZFXPolygon::Print(FILE *p);
+};
+
+
+
+// Our basic quaternion class
+class __declspec(dllexport) ZFXQuat {
+   public:
+      float x, y, z, w;
+
+      //---------------------------------------
+
+      ZFXQuat(void) { x=0.0f, y=0.0f, z=0.0f, w=1.0f; }
+      ZFXQuat(float _x, float _y, float _z, float _w)
+         { x=_x; y=_y; z=_z; w=_w; }
+
+      void  MakeFromEuler(float fPitch, float fYaw, float fRoll);
+      void  Normalize();
+      void  Conjugate(ZFXQuat q);
+      void  GetEulers(float *fPitch, float *fYaw, float *fRoll);
+      void  GetMatrix(ZFXMatrix *m);
+      float GetMagnitude(void);
+
+
+      void    operator /= (float f);
+      ZFXQuat operator /  (float f);
+
+      void    operator *= (float f);
+      ZFXQuat operator *  (float f);
+
+      ZFXQuat operator *  (const ZFXVector &v) const;
+
+      ZFXQuat operator *  (const ZFXQuat &q) const;
+      void    operator *= (const ZFXQuat &q);
+
+      void    operator += (const ZFXQuat &q);
+      ZFXQuat operator +  (const ZFXQuat &q) const;
+
+      ZFXQuat operator~(void) const { return ZFXQuat(-x, -y, -z, w); }
+
+      void Rotate(const ZFXQuat &q1, const ZFXQuat &q2);
+
+      ZFXVector Rotate(const ZFXVector &v);
+
+   }; // class
 
 //////END CLASSES
 

@@ -40,6 +40,10 @@ ZFXVector ZFXVector::operator*(float f) const{
 	return ZFXVector(x*f,y*f,z*f);
 }
 
+ZFXVector ZFXVector::operator / (float f) const {
+   return ZFXVector(x/f, y/f, z/f);
+   }
+
 
 inline float ZFXVector::GetSqrLength(void) const{
 	return(x*x+y*y+z*z);
