@@ -62,7 +62,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				LinkIncremental="2"
-				AdditionalLibraryDirectories="&quot;C:\Program Files (x86)\Microsoft DirectX SDK (February 2010)\Lib\x86&quot;"
+				AdditionalLibraryDirectories="D:\Grafica\ZFXEngine\ZFXEngine\ZFXRenderer;&quot;C:\Program Files (x86)\Microsoft DirectX SDK (February 2010)\Lib\x86&quot;"
 				GenerateDebugInformation="true"
 				SubSystem="2"
 				RandomizedBaseAddress="1"
@@ -185,6 +185,10 @@
 				RelativePath=".\ZFXD3D_main.cpp"
 				>
 			</File>
+			<File
+				RelativePath=".\ZFXD3D_skinman.cpp"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
@@ -196,15 +200,15 @@
 				>
 			</File>
 			<File
-				RelativePath=".\ZFX.h"
-				>
-			</File>
-			<File
 				RelativePath=".\ZFXD3D.def"
 				>
 			</File>
 			<File
 				RelativePath=".\ZFXD3D.h"
+				>
+			</File>
+			<File
+				RelativePath=".\ZFXD3D_skinman.h"
 				>
 			</File>
 		</Filter>

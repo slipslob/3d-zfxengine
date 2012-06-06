@@ -3,7 +3,7 @@
 #include "ZFX.h"           // return values and stuff
 #include "ZFXD3D.h"        // class definition
 
-
+bool g_bLF;
 
 /*-----------------------------------------------------------*/
 /* ZFXD3D class implementation                               *
