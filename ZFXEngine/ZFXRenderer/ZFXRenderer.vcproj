@@ -159,6 +159,14 @@
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
 			<File
+				RelativePath=".\ZFX.h"
+				>
+			</File>
+			<File
+				RelativePath=".\zfx_skinman.h"
+				>
+			</File>
+			<File
 				RelativePath=".\ZFXRenderDevice.h"
 				>
 			</File>

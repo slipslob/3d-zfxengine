@@ -7,6 +7,7 @@
 
 #include <windows.h>
 #include <stdio.h>
+#include "ZFX_skinman.h"
 
 
 // D E F I N E S ///////////////////////////////////////////////////
@@ -35,7 +36,7 @@ class ZFXRenderDevice {
       char           m_chAdapter[256];    // graphics adapter name
       bool           m_bRunning;          // after succesful initialization
       FILE          *m_pLog;              // log file
-      
+	  ZFXSkinManager *m_pSkinMan;
       
    public:
       ZFXRenderDevice(void) {};

@@ -1,7 +1,7 @@
 // File: ZFXRenderer.cpp
 
 #include "ZFXRenderer.h"
-
+bool g_bLF;
 /**
  * Constructor: Nothing spectacular.
  */
